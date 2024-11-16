@@ -1,0 +1,160 @@
+---
+title: "Trabajo Adicional Extra - Cuanti II"
+author: "Manuel López-Arce y Alison Cordero-Espinoza"
+date: "2024-11-16"
+output: html_document
+---
+
+Todos los ejercicios del libro de Adrian Pignataro, *Manual para el Análisis Político Cuantitativo.*
+
+# Capítulo 2 - Nociones generales de inferencia estadística
+
+1.  **El Instituto Nacional de Estadística y Censos (INEC, 2020) estimó que el ingreso per cápita promedio de Costa Rica en julio de 2020 es 326483 colones, con un margen de error de ±11423 colones calculado al 95% de confianza. Construya el intervalo de confianza para el promedio e interprételo.**
+
+```{r}
+
+Muestra_Total_Población <- 326483 
+Margen_Error<- 11423 #Con confianza del 95%
+
+Límite_Inferior <- Muestra_Total_Población - Margen_Error
+Límite_Superior <- Muestra_Total_Población + Margen_Error
+
+cat("Intervalo de confianza del 95%:", Límite_Inferior, "-", Límite_Superior)
+
+```
+
+Considerando una confianza del 95%, es posible afirmar, mediante el cálculo de un intervalo de confianza, que el ingreso per cápita promedio en Costa Rica en el mes de Julio 2020 varía entre 315,060 y 337,906 colones.
+
+2.  **Según la Encuesta Nacional de Hogares, de julio de 2020, el 26.2% de los hogares se categorizan como pobres en Costa Rica, con un margen de error de ±1.2 puntos porcentuales, calculado al 95% de confianza (INEC, 2020). Construya el intervalo de confianza para el porcentaje e interprételo.**
+
+```{r}
+
+PorcentajeMuestral <- 26.6  
+Tamaño_Muestra <- 3564.4    
+MargenError <- 1.2 #Con confianza del 95%
+
+LímiteInferior <- PorcentajeMuestral - MargenError
+LímiteSuperior <- PorcentajeMuestral + MargenError
+
+cat("Intervalo de confianza al 95%:", LímiteInferior, "-", LímiteSuperior)
+
+```
+
+El intervalo de confianza, calculado con un nivel de confianza del 95%, permite asegurar que el porcentaje de hogares que se encuentra en la pobreza varía entre los rangos del 25.4% y el 27.8%
+
+3.  **En una escala de 0 a 10, las personas encuestadas por el Centro de Investigación y Estudios Políticos (CIEP, 2020) calificaron al Tribunal Supremo de Elecciones de Costa Rica con una nota promedio de 6.6, con una desviación estándar muestral de 2.5. A sabiendas de que la muestra es de 927 personas, calcule el margen de error al 95%, construya el intervalo de confianza e interprételo.**
+
+```{r}
+
+Muestra <- 927
+SD <- 2.5
+NotaPromedio <- 6.6
+Confianza <- 95 #Para efectos de la formula se usa 1.96
+
+Margen_Error <- 1.96 * (SD/sqrt(Muestra))
+print(Margen_Error)
+
+                        
+LímiteInferior <- NotaPromedio - Margen_Error
+LímiteSuperior <- NotaPromedio + Margen_Error
+cat("Intervalo de confianza al 95%:", LímiteInferior, "-", LímiteSuperior)
+
+```
+
+Con un nivel de confianza del 95%, es posible afirmar que la valoración que las personas le otorgan al Tribunal Supremo de Elecciones (TSE), se encuentra en el rango de 6.4 a 6.7. Esta satisfacción está por encima del promedio, pero sigue sin alcanzar una calificación excelente.
+
+4.  **Según una encuesta preelectoral de enero hecha por el CIEP (2018), la intención de voto para el Partido Restauración Nacional era de 17% y para el Partido Acción Ciudadana de 11%, con una muestra de 798 personas decididas a votar. Calcule los márgenes de error al 95%, construya los intervalos de confianza para ambas estimaciones e interprételos.**
+
+```{r}
+
+#Partido Restauración Nacional
+Muestra <- 798
+IntenciónVoto_PAC <- 11
+IntenciónVoto_PRN <- 17
+Confianza <- 95 #Para efectos de la formula se usa 1.96
+
+
+Margen_Error_PRN <- 1.96*sqrt(17*(100-17)/798)
+print(Margen_Error_PRN)
+
+LímiteInferior <- IntenciónVoto_PRN - Margen_Error_PRN
+LímiteSuperior <- IntenciónVoto_PRN + Margen_Error_PRN
+cat("Intervalo de confianza al 95%:", LímiteInferior, "-", LímiteSuperior)
+
+```
+
+```{r}
+
+#Partido Acción Ciudadana
+Muestra <- 798
+IntenciónVoto_PAC <- 11
+IntenciónVoto_PRN <- 17
+Confianza <- 95 #Para efectos de la formula se usa 1.96
+
+
+Margen_Error_PAC <- 1.96*sqrt(11*(100-11)/798)
+print(Margen_Error_PAC)
+
+LímiteInferior <- IntenciónVoto_PAC - Margen_Error_PAC
+LímiteSuperior <- IntenciónVoto_PAC + Margen_Error_PAC
+cat("Intervalo de confianza al 95%:", LímiteInferior, "-", LímiteSuperior)
+
+```
+
+Con base a los dos intervalos previamente facilitados y tomando en cuenta que se calcularon con una confianza al 95%, es posible afirmar que la intención de voto para el Partido Restauración Nacional (PRN) se encuentra entre el 14% y el 19% y para el Partido Acción Ciudadana (PAC), se encuentra entre el 8% y el 13%. Por lo que las verdaderas cifras de intención de voto varían entre estos rangos.
+
+5.  **Comparando los intervalos de confianza obtenidos en el punto 4, ¿qué le parece que se puede concluir?**
+
+Se puede concluir que para el momento que se ejecutó la encuesta de intención de voto, el PRN llevaba la delantera sobre el PAC, con un porcentaje de intención de voto mayor. Sin embargo, el intervalo de confianza calculado para el PAC, es más ligeramente más estrecho que el medido para el PRN, esto puede deberse a que las proporciones de apoyo para cada partido son diferentes y a una mayor proporción suele aumentarse el margen de error.
+
+Por lo que considerando lo anterior se puede llegar a valorar que la intención de voto para el PAC a pesar de ser más pequeña, es también a su vez más concentrada y con menos variación/margen de error que la del PRN.
+
+6.  **Los resultados del censo de 2011 del INEC (2012) dicen que la población total de Costa Rica es de 4301712 personas, pero no se indica ningún margen de error. Explique por qué.**
+
+El censo ejecutado por el INEC durante el 2011 no parece indicar el margen de error registrado. Esto se debe a la naturaleza del censo, a diferencia de la encuesta, el censo tiene por característica principal el poder recolectar datos de la totalidad de la población y no de una muestra. Por lo que, según lo anterior, por esa razón el censo no presenta márgenes de error, debido a que no se basa en una muestra y por lo tanto no necesita de cálculos de márgenes de error, debido a que no existe incertidumbre en sus datos.
+
+7.  **Alguien postula que el estado de las carreteras de su país es deficiente y que las personas lo valorarían con una nota por debajo de 6.3. Otra persona es más bien optimista y cree que la media estaría por encima de 6.4. Una encuesta, aplicada a 600 personas, encuentra que en promedio la ciudadanía da una calificación de 6.2 con una desviación estándar de 1.2.**
+
+-   *Pruebe, calculando el valor p con R, la hipótesis nula de que la media en la valoración de las carreteras es igual a 6.3 versus la hipótesis alternativa de que es menor a 6.3, como aducía el crítico.*
+
+```{r}
+
+#Hipótesis Nula: La media es 6.3
+#Hipótesis Alternativa: La media es menor a 6.3
+
+Media <- 6.2
+ParámetroHipotético1 <- 6.3
+SD <- 1.2
+Muestra <- 600
+
+z <- (Media - ParámetroHipotético1) / (SD/sqrt(Muestra))
+p_value <- pnorm(z, lower.tail = TRUE)
+p_value
+
+```
+
+El resultado fue del 0.02, lo que indica que existe evidencia para respaldar el rechazo a la hiptesis nula, aduciendo que la hiptesis alternativa que establece la media menor a 6.3 es la adecuada y respalda que el estado de las carreteras es deficiente.
+
+-   *Pruebe, con R, la hipótesis nula de que la media en la valoración de las carreteras es igual a 6.4 versus la hipótesis alternativa de que es mayor a 6.4, como opinaba la voz optimista.*
+
+```{r}
+
+#Hipótesis Nula: La media es 6.4
+#Hipótesis Alternativa: La media es mayor a 6.4
+
+Media <- 6.2
+ParámetroHipotético2 <- 6.4
+SD <- 1.2
+Muestra <- 600
+
+z <- (Media - ParámetroHipotético2) / (SD/sqrt(Muestra))
+p_value <- pnorm(z, lower.tail = FALSE)
+p_value
+
+```
+
+Un valor de 0.9, como el otorgado por la prueba de hipótesis, demuestra que no hay suficiente evidencia para descartar la hipótesis nula, por lo que no se puede afirmar que la media del estado de las carreteras es sobre al 6.4. Por consiguiente, demuestra que no hay información que sustente la afirmación optimista expresada sobre el estado de las carreteras.
+
+# Capítulo 3 - Comparación de medias
+
+
