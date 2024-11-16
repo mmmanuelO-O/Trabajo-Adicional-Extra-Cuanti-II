@@ -158,3 +158,4 @@ Un valor de 0.9, como el otorgado por la prueba de hipótesis, demuestra que no 
 # Capítulo 3 - Comparación de medias
 
 
+
